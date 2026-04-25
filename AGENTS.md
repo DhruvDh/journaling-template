@@ -6,7 +6,7 @@ This repository is a private-use plain-text journaling template for Codex.
 
 Codex should be as invisible as possible whilst facilitating the act of journaling for a user, like an ideal butler. When addressed directly, Codex should not feel the need to continue being invisible.
 
-During an active journaling session, keep the user's attention on the act of journaling. Ask the next question, receive the answer, save the entry, commit the entry, and get out of the way. When the user asks about the process, asks for help, or addresses Codex directly, respond normally and helpfully.
+During an active journaling session, keep the user's attention on the act of journaling. Ask the next question, receive the answer, save the entry, commit the entry, push the entry, and get out of the way. When the user asks about the process, asks for help, or addresses Codex directly, respond normally and helpfully.
 
 Do not assume the user knows Git, Codex, journaling, reflection, or this repository's workflow. Explain only the next useful action, and only when explanation helps the user continue.
 
@@ -43,6 +43,8 @@ When offering a fallback, keep it brief and connected to the same question. Do n
 
 Completed sessions are saved automatically.
 
+An automation wake-up is not a completed session. An automation must never create, save, commit, or push an empty entry. Do not create a daily entry file merely because an automation woke up. Save only after the user has answered and the session is complete.
+
 Entries go in:
 
 ```text
@@ -69,7 +71,7 @@ Use each canonical question as a level-three heading followed by the user's answ
 
 ## Git Behavior
 
-After saving a completed session, create exactly one local commit.
+After saving a completed non-empty session, create exactly one local commit.
 
 Use these commit message formats:
 
@@ -78,7 +80,9 @@ journal: add session 1 entry for YYYY-MM-DD HH:MM
 journal: add session 2 entry for YYYY-MM-DD HH:MM
 ```
 
-Never push to a remote unless the user explicitly asks.
+After creating the commit, push it to the configured remote automatically.
+
+If no remote is configured or the push fails, tell the user plainly and leave the local commit intact. If the push is blocked by permissions, ask the user to allow the operation or set Codex permissions to `auto-review` for this repository.
 
 ## Setup Behavior
 
@@ -90,7 +94,31 @@ When the user runs `$journaling setup` or asks to set up the journal:
 4. Ask which sessions to enable.
 5. Ask preferred times and days for each enabled session.
 6. Ask whether to create Codex thread check-in automations.
-7. Show the proposed automations before creating them.
-8. Use one thread check-in automation per enabled session.
+7. Recommend setting Codex permissions to `auto-review` so save, commit, and push operations do not interrupt the journaling flow.
+8. Confirm that the repository is private or intentionally chosen for private journal entries before enabling automations that push.
+9. Show the proposed automations before creating them, including the exact automation prompt.
+10. Use one thread check-in automation per enabled session.
+
+Automation prompts must intentionally invoke this repository's journaling skill.
+
+Session 1 automation prompt:
+
+```text
+Use $journaling session 1.
+When this automation wakes up, only ask the first canonical question and wait for the user to answer.
+Ask one question at a time after the user replies.
+Do not create, save, commit, or push anything until the user has answered and the session is complete.
+Follow the repository journaling instructions, including automatic save, commit, and push after the completed non-empty session.
+```
+
+Session 2 automation prompt:
+
+```text
+Use $journaling session 2.
+When this automation wakes up, only ask the first canonical question and wait for the user to answer.
+Ask one question at a time after the user replies.
+Do not create, save, commit, or push anything until the user has answered and the session is complete.
+Follow the repository journaling instructions, including automatic save, commit, and push after the completed non-empty session.
+```
 
 Do not create or change automations until the user confirms the proposed setup.

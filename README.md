@@ -2,7 +2,7 @@
 
 This is a small Codex journaling template. It is for writing private plain-text journal entries with two simple sessions.
 
-Codex's job here is to stay out of the way. It asks one question at a time, saves the entry, commits it locally, and does not push anywhere unless you explicitly ask.
+Codex's job here is to stay out of the way. It asks one question at a time, saves the entry, commits it locally, and pushes it to your configured remote.
 
 ## Start Here
 
@@ -21,6 +21,8 @@ $journaling setup
 ```
 
 The setup will first ask whether you prefer a `Friendly` or `Pragmatic` conversational style. If you are not sure, use `Friendly`.
+
+For the smoothest experience, set Codex permissions to `auto-review` for this repository. The journal saves entries, creates local Git commits, and pushes those commits after completed sessions, so routine version-control actions may otherwise be interrupted by approval prompts. Because entries are pushed automatically, use a private repository for your journal.
 
 ## The Two Sessions
 
@@ -44,17 +46,19 @@ $journaling session 2
 
 Codex will ask one question at a time. You do not need to know how to journal or reflect before using this. Answer plainly. A sentence is enough if that is what comes.
 
-When a session is complete, Codex saves it automatically to:
+When you complete a session, Codex saves it automatically to:
 
 ```text
 entries/YYYY-MM-DD.md
 ```
 
-Codex also creates one local Git commit for the saved session. It never pushes to GitHub unless you explicitly ask.
+Codex also creates one local Git commit for the saved session and pushes it to your configured remote.
 
 ## Automations
 
-During setup, Codex can help you create recurring thread check-ins for either session. It will ask what days and times you prefer, show the proposed automations, and wait for confirmation before creating them.
+During setup, Codex can help you create recurring thread check-ins for either session. It will ask what days and times you prefer, show the proposed automations, and wait for confirmation before creating them. Each automation intentionally invokes `$journaling session 1` or `$journaling session 2`.
+
+When an automation wakes up, it only starts the check-in by asking the first question. It waits for you to answer before continuing. If you do not answer, it does not create an empty entry, commit, or push anything. Entries are saved, committed, and pushed only after you complete a session.
 
 ## Credits
 
