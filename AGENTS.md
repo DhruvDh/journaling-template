@@ -88,24 +88,26 @@ If no remote is configured or the push fails, tell the user plainly and leave th
 
 When the user runs `$journaling setup` or asks to set up the journal:
 
-1. First ask whether they want `Friendly` or `Pragmatic` style. Default to `Friendly`.
-2. Save the preference in `preferences/journaling.md`.
-3. Briefly explain the two sessions in plain language.
-4. Ask which sessions to enable.
-5. Ask preferred times and days for each enabled session.
-6. Ask whether to create Codex thread check-in automations.
+1. Treat details the user already gave as answered. For example, "9 am session 1 and 9 pm session 2" supplies the sessions and times.
+2. Ask only for missing setup details.
+3. Default style to `Friendly` if the user did not specify a style.
+4. Save the preference in `preferences/journaling.md`.
+5. Briefly explain the two sessions in plain language only if that helps the user continue.
+6. Ask whether to create Codex cron check-in automations, unless the user already asked for scheduled check-ins.
 7. Recommend setting Codex permissions to `auto-review` so save, commit, and push operations do not interrupt the journaling flow.
 8. Confirm that the repository is private or intentionally chosen for private journal entries before enabling automations that push.
 9. Show the proposed automations before creating them, including the exact automation prompt.
-10. Use one thread check-in automation per enabled session.
+10. Use one cron automation per enabled session.
 
 Automation prompts must intentionally invoke this repository's journaling skill.
+
+Scheduled journaling must use Codex cron automations, not heartbeat automations attached to the setup thread. Each cron automation should run against the current journaling repository workspace and start a fresh standalone check-in context when scheduled, rather than continuing the setup conversation. If using Codex app automation tools, create `kind: cron` automations and do not set a thread destination or heartbeat target for scheduled journaling.
 
 Session 1 automation prompt:
 
 ```text
 Use $journaling session 1.
-When this automation wakes up, only ask the first canonical question and wait for the user to answer.
+Ask only the first canonical question and wait for the user to answer.
 Ask one question at a time after the user replies.
 Do not create, save, commit, or push anything until the user has answered and the session is complete.
 Follow the repository journaling instructions, including automatic save, commit, and push after the completed non-empty session.
@@ -115,10 +117,12 @@ Session 2 automation prompt:
 
 ```text
 Use $journaling session 2.
-When this automation wakes up, only ask the first canonical question and wait for the user to answer.
+Ask only the first canonical question and wait for the user to answer.
 Ask one question at a time after the user replies.
 Do not create, save, commit, or push anything until the user has answered and the session is complete.
 Follow the repository journaling instructions, including automatic save, commit, and push after the completed non-empty session.
 ```
 
 Do not create or change automations until the user confirms the proposed setup.
+
+After confirmation, implement setup directly when tools are available: save preferences and create the cron automations. Do not present a long plan unless the active collaboration mode requires planning.

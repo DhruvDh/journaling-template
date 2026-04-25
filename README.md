@@ -56,7 +56,9 @@ Codex also creates one local Git commit for the saved session and pushes it to y
 
 ## Automations
 
-During setup, Codex can help you create recurring thread check-ins for either session. It will ask what days and times you prefer, show the proposed automations, and wait for confirmation before creating them. Each automation intentionally invokes `$journaling session 1` or `$journaling session 2`.
+During setup, Codex can help you create recurring cron check-ins for either session. These scheduled check-ins start fresh standalone check-in contexts instead of staying attached to the setup conversation. Codex will use details you already gave, ask only for missing preferences, show the proposed automations, and wait for confirmation before creating them.
+
+Each automation intentionally invokes `$journaling session 1` or `$journaling session 2`.
 
 When an automation wakes up, it only starts the check-in by asking the first question. It waits for you to answer before continuing. If you do not answer, it does not create an empty entry, commit, or push anything. Entries are saved, committed, and pushed only after you complete a session.
 
