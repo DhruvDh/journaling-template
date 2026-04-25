@@ -1,0 +1,7 @@
+interface:
+  display_name: "Journaling"
+  short_description: "Run private guided journaling sessions."
+  default_prompt: "Use $journaling to set up or run a guided journaling session."
+
+policy:
+  allow_implicit_invocation: true
