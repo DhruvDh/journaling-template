@@ -60,6 +60,8 @@ During setup, Codex can help you create recurring cron check-ins for either sess
 
 Each automation intentionally invokes `$journaling session 1` or `$journaling session 2`.
 
+By default, journaling automations use `gpt-5.5` with `xhigh` reasoning.
+
 When an automation wakes up, it only starts the check-in by asking the first question. It waits for you to answer before continuing. If you do not answer, it does not create an empty entry, commit, or push anything. Entries are saved, committed, and pushed only after you complete a session.
 
 ## Credits

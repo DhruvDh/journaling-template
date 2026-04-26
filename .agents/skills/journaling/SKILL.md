@@ -31,12 +31,14 @@ When setting up:
 6. Ask whether to create Codex cron check-in automations, unless the user already asked for scheduled check-ins.
 7. Recommend setting Codex permissions to `auto-review` so save, commit, and push operations do not interrupt the journaling flow.
 8. Confirm that the repository is private or intentionally chosen for private journal entries before enabling automations that push.
-9. Show the proposed automations before creating them, including the exact automation prompt.
+9. Show the proposed automations before creating them, including the exact automation prompt, model, and reasoning effort.
 10. Use one cron automation per enabled session.
 
 Automation prompts must intentionally invoke this skill.
 
 Scheduled journaling must use Codex cron automations, not heartbeat automations attached to the setup thread. Each cron automation should run against the current journaling repository workspace and start a fresh standalone check-in context when scheduled, rather than continuing the setup conversation. If using Codex app automation tools, create `kind: cron` automations and do not set a thread destination or heartbeat target for scheduled journaling.
+
+Use `gpt-5.5` with `xhigh` reasoning for all journaling cron automations. Do not accept the platform default model or reasoning effort if it differs. If using Codex app automation tools, set `model: gpt-5.5` and `reasoningEffort: xhigh`.
 
 Session 1 automation prompt:
 
